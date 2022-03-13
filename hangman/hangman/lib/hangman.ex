@@ -1,18 +1,10 @@
 defmodule Hangman do
-  @moduledoc """
-  Documentation for `Hangman`.
-  """
 
-  @doc """
-  Hello world.
+  def new_game do
 
-  ## Examples
+  end
 
-      iex> Hangman.hello()
-      :world
+  def make_move(game, guess) do
 
-  """
-  def hello do
-    :world
   end
 end
