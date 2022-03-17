@@ -1,16 +1,16 @@
 defmodule Dictionary.Impl.WordList do
 
-  @type word_list :: List.t
+  @type t :: list(String)
   @type word :: String.t
 
-  @spec start() :: word_list
-  def start() do
+  @spec word_list() :: t
+  def word_list() do
     "assets/words.txt"
     |> File.read!()
     |> String.split(~r/\n/, trim: true)
   end
 
-  @spec random_word(word_list) :: word
+  @spec random_word(t) :: word
   def random_word(word_list)do
     word_list
     |> Enum.random()
