@@ -67,7 +67,7 @@ defmodule Hangman.Impl.Game do
     %{game | game_state: :bad_guess, turns_left: game.turns_left - 1}
   end
 
-  defp tally(game) do
+  def tally(game) do
     %{
       turns_left: game.turns_left,
       game_state: game.game_state,
