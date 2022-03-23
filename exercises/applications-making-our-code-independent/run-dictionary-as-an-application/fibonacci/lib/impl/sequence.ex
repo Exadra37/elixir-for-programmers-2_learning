@@ -43,7 +43,7 @@ defmodule Fibonacci.Impl.Sequence do
   end
 
   defp _fib(nil, number), do: _fib_sequence(number, 0)
-  defp _fib(cached_sequence, _number), do: cached_sequence
+  defp _fib(cached_sequence, _number), do: cached_sequence |> Enum.reverse()
 
   defp _fib_sequence(number, 0) do
     Cache.update(number, 0)
@@ -59,7 +59,12 @@ defmodule Fibonacci.Impl.Sequence do
 
   defp _fib_sequence([n1, n2 | _tail] = sequence, number, _current_number) do
     current_number = n1 + n2
-    _update_cache(number, current_number, sequence)
+
+    sequence = _update_cache(number, current_number, sequence)
+
+    # Cache.update(current_number, sequence)
+
+    sequence
     |>_fib_sequence(number, current_number)
   end
 
