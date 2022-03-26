@@ -2,11 +2,11 @@ defmodule Chain do
 
   defstruct(
     next_node: nil,
-    count: 4
+    count: 1000
   )
 
-  def start_link(next_node) do
-    spawn_link(Chain, :message_loop, [%Chain{next_node: next_node}])
+  def start_link(next_node, count \\ 1000) do
+    spawn_link(Chain, :message_loop, [%Chain{next_node: next_node, count: count}])
     |> Process.register(:chainer)
   end
 
@@ -17,8 +17,7 @@ defmodule Chain do
   def message_loop(state) do
     receive do
       {:trigger, list} ->
-        IO.inspect(list)
-        :timer.sleep(500)
+        IO.inspect(state.count)
         send({:chainer, state.next_node}, {:trigger, [node() | list]})
     end
 
