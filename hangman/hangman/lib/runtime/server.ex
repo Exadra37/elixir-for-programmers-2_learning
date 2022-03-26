@@ -4,6 +4,8 @@ defmodule Hangman.Runtime.Server do
 
   use GenServer
 
+  @type t :: pid()
+
   ### Runs in the Client Process
 
   def start_link() do
