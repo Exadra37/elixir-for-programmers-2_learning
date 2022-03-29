@@ -20,6 +20,12 @@ defmodule AppWeb.Router do
     get "/", PageController, :index
   end
 
+  scope "/hangman", AppWeb do
+    pipe_through :browser
+
+    get "/", HangmanController, :index
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", AppWeb do
   #   pipe_through :api
