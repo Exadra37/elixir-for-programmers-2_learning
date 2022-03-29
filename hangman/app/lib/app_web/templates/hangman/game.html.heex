@@ -1,0 +1,13 @@
+This is the game
+
+<p>
+  Turns left: <%= @tally.turns_left %>
+</p>
+
+<p>
+  Letters used: <%= @tally.used |> Enum.join(", ") %>
+</p>
+
+<p>
+  Words so far: <%= @tally.letters |> Enum.join(" ") %>
+</p>
