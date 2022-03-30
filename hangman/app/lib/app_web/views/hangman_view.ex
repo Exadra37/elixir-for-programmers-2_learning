@@ -2,13 +2,13 @@ defmodule AppWeb.HangmanView do
   use AppWeb, :view
 
   def continue_or_try_again(conn, status) when status in [:won, :lost] do
-    button("Try again", to: Routes.hangman_path(conn, :new))
+    button("Try again", to: Routes.hangman_path(conn, :new), autofocus: true)
   end
 
   def continue_or_try_again(conn, _status) do
     form_for(conn, Routes.hangman_path(conn, :update), [ as: "make_move", method: :put ], fn f ->
       [
-        text_input(f, :guess),
+        text_input(f, :guess, autofocus: true),
         " ",
         submit("Make next guess")
       ]
@@ -28,101 +28,6 @@ defmodule AppWeb.HangmanView do
     "<div class='status #{class}'>#{msg}</div>"
   end
 
-  def figure_for(0) do
-    ~s{
-      ┌───┐
-      │   │
-      O   │
-     /│\\  │
-      │   │
-     / \\  │
-          │
-    ══════╧══
-    }
-  end
-  def figure_for(1) do
-    ~s{
-      ┌───┐
-      │   │
-      O   │
-     /│\\  │
-      │   │
-     /    │
-          │
-    ══════╧══
-    }
-  end
-
-  def figure_for(2) do
-    ~s{
-      ┌───┐
-      │   │
-      O   │
-     /│\\  │
-          │
-          │
-    ══════╧══
-    }
-  end
-
-  def figure_for(3) do
-    ~s{
-      ┌───┐
-      │   │
-      O   │
-     /│   │
-          │
-          │
-    ══════╧══
-    }
-  end
-
-  def figure_for(4) do
-    ~s{
-      ┌───┐
-      │   │
-      O   │
-      │   │
-          │
-          │
-    ══════╧══
-    }
-  end
-
-  def figure_for(5) do
-    ~s{
-      ┌───┐
-      │   │
-      O   │
-          │
-          │
-          │
-    ══════╧══
-    }
-  end
-
-  def figure_for(6) do
-    ~s{
-      ┌───┐
-      │   │
-          │
-          │
-          │
-          │
-    ══════╧══
-    }
-  end
-
-  def figure_for(7) do
-    ~s{
-      ┌───┐
-          │
-          │
-          │
-          │
-          │
-    ══════╧══
-   }
-  end
+  defdelegate figure_for(turns_left), to: AppWeb.HangmanView.Helpers.FigureFor
 
 end
