@@ -17,6 +17,7 @@ defmodule MemoryWeb.Router do
   scope "/", MemoryWeb do
     pipe_through :browser
 
+    live("/", Live.MemoryDisplay)
   end
 
   # Other scopes may use custom stacks.
