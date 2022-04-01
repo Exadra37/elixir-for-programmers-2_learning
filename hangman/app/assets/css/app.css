@@ -10,7 +10,7 @@
 .status.bad-guess    { color: coral }
 .status.won          { color: darkgreen; font-weight: bold }
 .status.lost         { color: crimson; font-weight: bold }
-.status.already-used { color: #caa }
+.status.already-used { color: orange }
 
 .tally th            {
   font-weight: normal;
