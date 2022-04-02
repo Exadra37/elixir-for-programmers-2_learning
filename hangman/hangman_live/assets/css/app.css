@@ -1,6 +1,21 @@
 /* This file is for your main application CSS */
 @import "./phoenix.css";
 
+.one-letter {
+  color:  #8888bb;
+}
+
+.one-letter.correct {
+  color: #88bb88;
+}
+
+.letters .one-letter {
+  width: 1rem;
+  font-size: 300%;
+  display: inline-block;
+  margin:  0 1rem;
+}
+
 /* Alerts and form errors used by phx.new */
 .alert {
   padding: 15px;
