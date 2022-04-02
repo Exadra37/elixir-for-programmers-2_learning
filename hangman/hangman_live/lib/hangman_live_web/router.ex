@@ -17,6 +17,7 @@ defmodule HangmanLiveWeb.Router do
   scope "/", HangmanLiveWeb do
     pipe_through :browser
 
+    live("/", Live.Game)
   end
 
   # Other scopes may use custom stacks.
