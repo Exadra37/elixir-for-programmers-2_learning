@@ -18,6 +18,7 @@ defmodule HangmanLiveWeb.Live.Game do
   def render(assigns) do
     ~H"""
     <div class="game-holder" phx-window-keyup="make_move">
+    <h1 class="text-center">Hangman Game</h1>
 
     <%= live_component(__MODULE__.Figure, tally: assigns.tally, id: 1) %>
     <%= live_component(__MODULE__.Alphabet, tally: assigns.tally, id: 2) %>

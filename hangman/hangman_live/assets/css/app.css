@@ -9,9 +9,14 @@ body {
 
 /* START:  Styling the Hangman Game */
 
+#hangman-logo {
+  height: 8rem;
+  width: 8rem;
+}
+
 .game-holder {
   max-height: 70%;
-  margin-top: 15%;
+  margin-top: 1rem;
   display: flex;
   flex-flow: row wrap;
   gap: 10%;
@@ -75,7 +80,6 @@ body {
   color: #552244;
 }
 
-
 .hide-component {
   opacity: 0.1;
 }
@@ -85,6 +89,10 @@ svg path {
 }
 
 /* END: Styling the Hangman Game */
+
+.text-center {
+  text-align: center;
+}
 
 
 /* PHONEIX CSS */
