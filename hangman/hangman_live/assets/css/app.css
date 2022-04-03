@@ -15,7 +15,7 @@ body {
 }
 
 .game-holder {
-  max-height: 80rem;
+  /*max-height: 80rem;*/
   margin-top: 1rem;
   display: flex;
   flex-flow: row wrap;
@@ -28,7 +28,7 @@ body {
 .game-holder .figure {
   flex-basis: 40%;
   min-width: 40rem;
-
+  display: flex;
 }
 
 .game-holder .letter-stuff {
@@ -80,17 +80,20 @@ body {
 .status.lost         { color: crimson; font-weight: bold }
 .status.already_used { color: darkorange }
 
+.try-again .show {
+  margin: 1rem auto;
+}
 
 /* Styling the Hangman SVG Figure */
 
 .figure svg {
-  max-height: 50vh;
+  max-height: 45vh;
 }
 
 .turns-left {
   display: block;
   position: relative;
-  top: -4vh;
+  top: -3vh;
   text-align: center;
   color: #552244;
   font-weight: bold;
@@ -104,12 +107,54 @@ svg path {
   transition: opacity 0.5s;
 }
 
+@media (max-width: 40.0rem) { /* Small devices (landscape phones, 576px and up) */
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .nav-top-menu {
+    display: none;
+  }
+
+  .figure svg {
+    max-height: 40vh;
+    margin: auto;
+  }
+
+  .turns-left {
+    top:  0;
+  }
+
+  .letters .one-letter {
+    font-size: 3rem;
+    margin:  0;
+  }
+
+  .status {
+    font-size: 1.6rem;
+  }
+
+  .alphabet {
+    font-size: 2rem;
+    margin-top: 1rem;
+  }
+}
+
+
 /* END: Styling the Hangman Game */
 
 .text-center {
   text-align: center;
 }
 
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}
 
 /* PHONEIX CSS */
 
