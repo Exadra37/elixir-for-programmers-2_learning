@@ -15,7 +15,7 @@ body {
 }
 
 .game-holder {
-  max-height: 70%;
+  max-height: 80rem;
   margin-top: 1rem;
   display: flex;
   flex-flow: row wrap;
@@ -27,7 +27,7 @@ body {
 
 .game-holder .figure {
   flex-basis: 40%;
-  min-width: 400px;
+  min-width: 40rem;
 
 }
 
@@ -42,8 +42,8 @@ body {
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.3em 0.4em;
-  font-size: 150%;
-  margin-bottom: 10%;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
 }
 
 .one-letter {
@@ -58,26 +58,42 @@ body {
   color: red;
 }
 
+.letters {
+  text-align: center;
+}
+
 .letters .one-letter {
-  width: 1rem;
-  font-size: 300%;
+  font-size: 6rem;
   display: inline-block;
   margin:  0 1rem;
 }
 
+.status {
+  text-align: center;
+  font-size: 2rem;
+}
+
+.status.initializing { color: darkblue; font-size: 1.6rem; }
+.status.good_guess   { color: green }
+.status.bad_guess    { color: darkred }
+.status.won          { color: darkgreen; font-weight: bold }
+.status.lost         { color: crimson; font-weight: bold }
+.status.already_used { color: darkorange }
+
+
 /* Styling the Hangman SVG Figure */
 
 .figure svg {
-  max-height: 60vh;
+  max-height: 50vh;
 }
 
 .turns-left {
-  display: inline-block;
+  display: block;
   position: relative;
-  top: -30vh;
-  margin-right: 20%;
-  max-width: 30%;
+  top: -4vh;
+  text-align: center;
   color: #552244;
+  font-weight: bold;
 }
 
 .hide-component {

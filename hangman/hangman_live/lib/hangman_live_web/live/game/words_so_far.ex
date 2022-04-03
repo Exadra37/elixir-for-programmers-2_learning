@@ -6,8 +6,8 @@ defmodule HangmanLiveWeb.Live.Game.WordsSoFar do
     already_used: "You already picked that letter",
     bad_guess: "That's not in the word",
     good_guess: "Good guess!",
-    initializing: "Type or click on your first guess",
-    lost: "sorry, you lost...",
+    initializing: "Type one letter on your keyboard or click on the alphabet for your first guess",
+    lost: "Sorry, you lost...",
     won: "You won!",
   }
 
@@ -18,8 +18,8 @@ defmodule HangmanLiveWeb.Live.Game.WordsSoFar do
   def render(assigns) do
     ~H"""
     <div class="words-so-far">
-      <div class="words-so-far">
-         <%= state_name(@tally.game_state) %>
+      <div class={status_class(@tally.game_state)}>
+         <%= state_message(@tally.game_state) %>
       </div>
 
       <div class="letters">
@@ -34,8 +34,12 @@ defmodule HangmanLiveWeb.Live.Game.WordsSoFar do
     """
   end
 
-  defp state_name(state) do
+  defp state_message(state) do
     @states[state] || "Unknown state"
+  end
+
+  defp status_class(state) do
+    "status #{state}"
   end
 
 end
