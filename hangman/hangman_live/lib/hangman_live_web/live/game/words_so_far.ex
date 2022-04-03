@@ -18,27 +18,29 @@ defmodule HangmanLiveWeb.Live.Game.WordsSoFar do
   def render(assigns) do
     ~H"""
     <div class="words-so-far">
-      <div class={status_class(@tally.game_state)}>
-         <%= state_message(@tally.game_state) %>
+      <div class={_status_class(@tally.game_state)}>
+         <%= _state_message(@tally.game_state) %>
       </div>
 
       <div class="letters">
-      <%= for ch <- @tally.letters do %>
-        <% cls = if ch != "_", do: "one-letter correct", else: "one-letter" %>
-          <div class={cls}>
-            <%= ch %>
-          </div>
+      <%= for letter <- @tally.letters do %>
+        <div class={_letter_class(letter)}>
+          <%= letter %>
+        </div>
       <% end %>
       </div>
     </div>
     """
   end
 
-  defp state_message(state) do
+  defp _letter_class("_"), do: "one-letter"
+  defp _letter_class(_letter), do: "one-letter correct"
+
+  defp _state_message(state) do
     @states[state] || "Unknown state"
   end
 
-  defp status_class(state) do
+  defp _status_class(state) do
     "status #{state}"
   end
 

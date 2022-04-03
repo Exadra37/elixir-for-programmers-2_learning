@@ -43,7 +43,7 @@ select {
   background: #ffffff;
 }
 .phx-logo {
-  min-width: 300px;
+  min-width: 3rem;
   margin: 1rem;
   display: block;
 }

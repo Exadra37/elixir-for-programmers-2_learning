@@ -15,7 +15,7 @@ defmodule HangmanLiveWeb.Live.Game.Alphabet do
       <div
         phx-click="make_move"
         phx-value-key={letter}
-        class={"one-letter #{classOf(letter, @tally)}"}
+        class={"one-letter #{_classOf(letter, @tally)}"}
       >
         <%= letter %>
       </div>
@@ -24,7 +24,7 @@ defmodule HangmanLiveWeb.Live.Game.Alphabet do
     """
   end
 
-  defp classOf(letter, tally) do
+  defp _classOf(letter, tally) do
     cond do
       Enum.member?(tally.letters, letter) -> "correct"
       Enum.member?(tally.used, letter) -> "wrong"
