@@ -3,6 +3,7 @@ defmodule HangmanLiveWeb.Live.Game do
   use HangmanLiveWeb, :live_view
 
   def mount(_params, _session, socket) do
+    socket = assign(socket, :start_button, true)
     {:ok, socket}
   end
 
@@ -11,9 +12,23 @@ defmodule HangmanLiveWeb.Live.Game do
     {:noreply, socket}
   end
 
-  def handle_event("make_move", %{"key" => key}, %{assigns: %{game: game}} = socket) do
+  def handle_event("make_move", %{"key" => key}, %{assigns: %{game: game}} = socket)
+    when key not in ["Enter", "enter"]
+  do
     tally = Hangman.make_move(game, key)
     {:noreply, assign(socket, :tally, tally)}
+  end
+
+  def handle_event("make_move", %{"key" => "Enter"} = params, %{assigns: %{tally: tally}} = socket)
+    when tally.game_state in [:won, :lost]
+  do
+    socket = _start_new_game(socket)
+    {:noreply, socket}
+  end
+
+  def handle_event("make_move", %{"key" => "Enter"} = params, %{assigns: %{start_button: true}} = socket) do
+    socket = _start_new_game(socket)
+    {:noreply, socket}
   end
 
   def handle_event("make_move", _params, socket) do
@@ -49,6 +64,6 @@ defmodule HangmanLiveWeb.Live.Game do
     tally = Hangman.tally(game)
 
     socket
-    |> assign(%{game: game, tally: tally})
+    |> assign(%{game: game, tally: tally, start_button: false})
   end
 end
