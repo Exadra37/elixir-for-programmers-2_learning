@@ -1,0 +1,12 @@
+.elixir_ls/
+.local/
+.mnesia/
+.Trash-1000/
+_build/
+assets/
+bin/
+config/
+deps/
+lib/
+priv/
+test/

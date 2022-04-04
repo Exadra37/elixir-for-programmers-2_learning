@@ -1,0 +1,70 @@
+version: "2.3"
+
+services:
+
+  dev:
+    image: "${APP_VENDOR}/${PUBLIC_DOMAIN}:${APP_NAME}-dev"
+    build:
+      context: docker/build
+      args:
+        ELIXIR_VERSION: ${ELIXIR_VERSION}
+        OTP_VERSION: ${ERLANG_OTP_VERSION}
+        ALPINE_VERSION: ${ALPINE_VERSION}
+        MIX_ENV: "dev"
+        GIT_USER_DEPLOY_TOKEN: ${GIT_USER_DEPLOY_TOKEN}
+
+    env_file:
+      - .env
+    volumes:
+      - ./:/home/developer/workspace
+    ports:
+      - 127.0.0.1:${PUBLIC_DOMAIN_PORT}:${SERVER_HTTP_PORT}
+    networks:
+      - traefik
+      - default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=${PUBLIC_DOMAIN? Missing env var PUBLIC_DOMAIN}"
+      - "traefik.docker.network=traefik"
+      - "traefik.port=${SERVER_HTTP_PORT}"
+      - "traefik.frontend.rule=Host:${PUBLIC_DOMAIN}"
+
+  prod-local:
+    image: "${APP_VENDOR}/${PUBLIC_DOMAIN}:${APP_NAME}-prod" #${DOCKER_IMAGE? Missing env var for DOCKER_IMAGE}
+    build:
+      context: .
+      args:
+        ELIXIR_VERSION: ${ELIXIR_VERSION}
+        OTP_VERSION: ${ERLANG_OTP_VERSION}
+        ALPINE_VERSION: ${ALPINE_VERSION}
+        MIX_ENV: "prod"
+        GIT_USER_DEPLOY_TOKEN: ${GIT_USER_DEPLOY_TOKEN}
+        BUILD_RELEASE_FROM: ${BUILD_RELEASE_FROM}
+
+    restart: unless-stopped
+    env_file:
+      - .env.deploy
+    ports:
+      - 127.0.0.1:${PUBLIC_DOMAIN_PORT}:${SERVER_HTTP_PORT}
+    networks:
+      - traefik
+      - default
+
+  prod:
+    image: "${APP_VENDOR}/${PUBLIC_DOMAIN}:${APP_NAME}-prod" #${DOCKER_IMAGE? Missing env var for DOCKER_IMAGE}
+    restart: unless-stopped
+    env_file:
+      - .env
+    networks:
+      - traefik
+      - default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.backend=${PUBLIC_DOMAIN? Missing env var PUBLIC_DOMAIN}"
+      - "traefik.docker.network=traefik"
+      - "traefik.port=${SERVER_HTTP_PORT}"
+      - "traefik.frontend.rule=Host:${PUBLIC_DOMAIN}"
+
+networks:
+  traefik:
+    external: true
