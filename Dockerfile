@@ -26,11 +26,33 @@ RUN \
     git \
     python3
 
-COPY .env /release/.env
-COPY ./.git /workspace
+ENV USER="phoenix"
+ENV HOME=/home/"${USER}"
+ENV APP_DIR="${HOME}/app"
 
 RUN \
-  git clone --local /workspace . && \
+  addgroup \
+   -g 1000 \
+   -S "${USER}" && \
+  adduser \
+   -s /bin/sh \
+   -u 1000 \
+   -G "${USER}" \
+   -h "${HOME}" \
+   -D "${USER}" && \
+
+  su "${USER}" sh -c "mkdir ${APP_DIR}"
+
+# Everything from this line onwards will run in the context of the unprivileged user.
+USER "${USER}"
+
+WORKDIR "${APP_DIR}"
+
+COPY --chown="${USER}":"${USER}" .env /release/.env
+COPY --chown="${USER}":"${USER}" ./.git "${HOME}"/workspace
+
+RUN \
+  git clone --local "${HOME}"/workspace . && \
   git checkout "${BUILD_RELEASE_FROM}" && \
   ls -al
 
@@ -84,11 +106,13 @@ USER "${USER}"
 
 WORKDIR "${APP_DIR}"
 
-COPY --from=build --chown="${USER}":"${USER}" /app/hangman/hangman_live/_build/prod/rel/hangman_live ./
+COPY --from=build --chown="${USER}":"${USER}" "${APP_DIR}"/hangman/hangman_live/_build/prod/rel/hangman_live ./
 
 RUN ls -al bin/
 
-# ENTRYPOINT ["./bin"]
+ENV PHX_SERVER=true
+
+ENTRYPOINT ["./bin/hangman_live"]
 
 # Docker Usage:
 #  * build: sudo docker build -t phoenix/hangman_live .
@@ -103,4 +127,4 @@ RUN ls -al bin/
 # sudo docker run --rm -it --entrypoint "" --user $(id -u) -v "$PWD/_build:/home/phoenix/_build"  phoenix/hangman_live sh -c "tar zcf /home/phoenix/_build/app.tar.gz ."
 # ls -al _build
 # ````
-CMD ["./bin/server"]
+CMD ["start"]
