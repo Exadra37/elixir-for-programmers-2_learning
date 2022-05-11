@@ -25,7 +25,7 @@ if config_env() == :prod do
       You can generate one by calling: mix phx.gen.secret
       """
 
-  host = System.get_env("SERVER_HOSTNAME") || "example.com"
+  host = System.get_env("PUBLIC_DOMAIN") || raise "Missing PUBLIC_DOMAIN env var"
   port = String.to_integer(System.get_env("SERVER_HTTP_PORT") || "4000")
 
   config :hangman_live, HangmanLiveWeb.Endpoint,
