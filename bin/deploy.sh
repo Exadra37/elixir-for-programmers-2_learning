@@ -64,7 +64,7 @@ Main() {
   SCP_Copy_To_Remote ".env.deploy"
   SSH_Remote_Execute "mv ${REMOTE_APP_DIR}/.env.deploy ${REMOTE_APP_DIR}/.env"
   # Done this way because the docker image is using a timestamp in the tag.
-  SSH_Remote_Execute "echo 'DOCKER_IMAGE=${DOCKER_IMAGE}' >> ${REMOTE_APP_DIR}/.env"
+  SSH_Remote_Execute "echo 'RELEASE_DOCKER_IMAGE=${DOCKER_IMAGE}' >> ${REMOTE_APP_DIR}/.env"
 
   Docker_Build_Release
 
