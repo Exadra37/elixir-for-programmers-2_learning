@@ -2,14 +2,11 @@ ARG ELIXIR_VERSION
 ARG OTP_VERSION
 ARG ALPINE_VERSION
 
-# FROM hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-alpine-${ALPINE_VERSION} as build
-FROM hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-alpine-${ALPINE_VERSION} as build
+FROM hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-alpine-${ALPINE_VERSION} AS build
 
 ARG MIX_ENV=prod
-ARG BUILD_RELEASE_FROM=master
-ARG GIT_CLONE_URL=https://gitlab.com/exadra37-playground/elixir/video-hub.git
-ARG GIT_USER_DEPLOY_TOKEN
-ENV GIT_USER_DEPLOY_TOKEN=${GIT_USER_DEPLOY_TOKEN}
+ARG BUILD_RELEASE_FROM=main
+ARG GIT_CLONE_URL=https://github.com/Exadra37/elixir-phoenix-hangman.git
 
 ENV RELEASE_PATH="${CONTAINER_HOME}"/phoenix_release
 ENV MIX_ENV=${MIX_ENV}
@@ -51,31 +48,22 @@ WORKDIR "${APP_DIR}"
 COPY --chown="${USER}":"${USER}" .env /release/.env
 COPY --chown="${USER}":"${USER}" ./.git "${HOME}"/workspace
 
-RUN \
-  git clone --local "${HOME}"/workspace . && \
-  git checkout "${BUILD_RELEASE_FROM}" && \
-  ls -al
+RUN git clone --depth 1 --branch ${BUILD_RELEASE_FROM} ${GIT_CLONE_URL}
 
-RUN \
-  # @link https://github.com/elixir-lang/elixir/issues/3422#issuecomment-388188608
-  # @link https://gist.github.com/Kovrinic/ea5e7123ab5c97d451804ea222ecd78a
-  git config --global url."https://exadra37:${GIT_USER_DEPLOY_TOKEN}@gitlab.com".insteadOf https://gitlab.com  && \
+WORKDIR "${APP_DIR}/hangman/hangman_live"
 
-  cd hangman/hangman_live && \
-  ls -al && \
+RUN mix local.hex --force && \
+  mix local.rebar --force
 
-  mix local.hex --force && \
-  mix local.rebar --force && \
+RUN mix deps.get --only "${MIX_ENV}"
 
-  mix deps.get --only "${MIX_ENV}" && \
+RUN mix compile
 
-  mix compile && \
+RUN mix assets.deploy
 
-  mix assets.deploy && \
+RUN mix phx.gen.release
 
-  mix phx.gen.release && \
-
-  mix release
+RUN mix release
 
 # Start a new build stage so that the final image will only contain
 # the compiled release and other runtime necessities
