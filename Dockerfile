@@ -48,12 +48,15 @@ WORKDIR "${APP_DIR}"
 COPY --chown="${USER}":"${USER}" .env /release/.env
 COPY --chown="${USER}":"${USER}" ./.git "${HOME}"/workspace
 
-RUN git clone --depth 1 --branch ${BUILD_RELEASE_FROM} ${GIT_CLONE_URL}
+RUN git clone --depth 1 --branch ${BUILD_RELEASE_FROM} ${GIT_CLONE_URL} .
 
 WORKDIR "${APP_DIR}/hangman/hangman_live"
 
 RUN mix local.hex --force && \
   mix local.rebar --force
+
+RUN pwd
+RUN ls -al
 
 RUN mix deps.get --only "${MIX_ENV}"
 

@@ -7,10 +7,11 @@ services:
     build:
       context: .
       args:
-        ALPINE_VERSION: "${ALPINE_VERSION:-3.20.3}"
+        ALPINE_VERSION: "${ALPINE_VERSION:-3.15.3}"
         ELIXIR_VERSION: "${ELIXIR_VERSION:-1.13.3}"
         OTP_VERSION: "${ERLANG_OTP_VERSION:-24.3.3}"
         BUILD_RELEASE_FROM: "${BUILD_RELEASE_FROM:-main}"
+        GIT_CLONE_URL: "${GIT_CLONE_URL:-https://github.com/Exadra37/elixir-phoenix-hangman.git}"
 
     restart: unless-stopped
     env_file:
